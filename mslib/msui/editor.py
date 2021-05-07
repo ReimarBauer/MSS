@@ -24,6 +24,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+import os
 import fs
 import logging
 import json
@@ -54,7 +55,7 @@ class EditorMainWindow(QtWidgets.QMainWindow):
         # Load mss_settings.json (if already exists)
         self.path = constants.CACHED_CONFIG_FILE
         if self.path:
-            dir_name, file_name = fs.path.split(self.path)
+            dir_name, file_name = os.path.split(self.path)
             with fs.open_fs(dir_name) as _fs:
                 if _fs.exists(file_name):
                     self.file_content = _fs.readtext(file_name)
@@ -225,7 +226,7 @@ class EditorMainWindow(QtWidgets.QMainWindow):
         logging.debug("save config file to: %s", filename)
         text = self.editor.toPlainText()
         self.last_saved = text
-        dir_name, file_name = fs.path.split(filename)
+        dir_name, file_name = os.path.split(filename)
         with fs.open_fs(dir_name) as _fs:
             _fs.writetext(file_name, text)
         self.update_title()
